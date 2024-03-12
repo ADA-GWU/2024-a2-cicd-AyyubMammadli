@@ -1,3 +1,7 @@
+
+These tests utilize Selenium WebDriver and JUnit to verify the functionality of the system.
+
+
 Descriptions of Tests that is done by Ayyub Mammadli
  
 RetrieveSingleStudentById Test
