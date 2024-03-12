@@ -1,0 +1,112 @@
+package ada.edu.demo.webtest;
+
+import ada.edu.demo.webtest.controller.StudentController;
+import ada.edu.demo.webtest.entity.Course;
+import ada.edu.demo.webtest.entity.Student;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.ui.Model;
+import org.springframework.validation.support.BindingAwareModelMap;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+class UnitTests {
+
+	@Autowired
+	private WebDriver webDriver;
+
+	@Test
+	@DisplayName("The number of courses shall correspond to the added courses")
+	void testTotalCourses() {
+		List<Course> courseList = new ArrayList<>();
+
+		Integer courseCnt = (int)(Math.random() * 20);
+
+		for (int i = 0; i< courseCnt; i++) {
+			Course c = new Course();
+			courseList.add(c);
+		}
+
+		Student s = new Student();
+		s.setCourses(courseList);
+
+		assert (courseCnt == s.getCourses().size());
+	}
+	@Test
+	@DisplayName("The total credits shall correspond to the sum of the added credits")
+	void testCreditCalculation() {
+		List<Course> courseList = new ArrayList<>();
+
+		Integer courseCnt = (int)(Math.random() * 20);
+		Integer testCreds = 0;
+
+		for (int i = 0; i< courseCnt; i++) {
+			Integer rndCred = (int)(Math.random() * 5);
+			Course c = new Course();
+			c.setCredits(rndCred);
+			courseList.add(c);
+			testCreds += rndCred;
+		}
+
+		Student s = new Student();
+		s.setCourses(courseList);
+
+		Integer totalCredits = s.getTotalCredits();
+		assert (totalCredits == testCreds);
+	}
+	@Test
+	@DisplayName("Courses shall be properly added to the student's course list")
+	void testCourseListPopulation() {
+		List<Course> courseList = new ArrayList<>();
+		int courseCount = 5; // Let's assume we have 5 courses
+
+		// Create courses and add them to the course list
+		for (int i = 0; i < courseCount; i++) {
+			Course c = new Course();
+			c.setCourseId(i + 1); // Assuming course IDs start from 1
+			courseList.add(c);
+		}
+
+		// Create a student and set the courses
+		Student student = new Student();
+		student.setCourses(courseList);
+
+		// Retrieve the student's course list
+		List<Course> retrievedCourses = student.getCourses();
+
+		// Assert that the size of the retrieved course list matches the expected course count
+		assertEquals(courseCount, retrievedCourses.size());
+
+		// Assert that each course in the retrieved course list is the same as the one added
+		for (int i = 0; i < courseCount; i++) {
+			assertEquals(courseList.get(i), retrievedCourses.get(i));
+		}
+	}
+	@Test
+	@DisplayName("Test getIndex() method in StudentController")
+	void testGetIndex() {
+		// Create an instance of StudentController
+		StudentController controller = new StudentController();
+
+		// Create a new Model
+		Model model = new BindingAwareModelMap();
+
+		// Call the getIndex() method
+		String viewName = controller.getIndex();
+
+		// Assert that the view name returned by getIndex() is correct
+		assertEquals("student/index", viewName);
+	}
+
+
+
+}
