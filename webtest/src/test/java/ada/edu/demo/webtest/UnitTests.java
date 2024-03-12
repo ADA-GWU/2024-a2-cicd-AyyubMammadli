@@ -1,5 +1,6 @@
 package ada.edu.demo.webtest;
 
+import ada.edu.demo.webtest.controller.StudentController;
 import ada.edu.demo.webtest.entity.Course;
 import ada.edu.demo.webtest.entity.Student;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.ui.Model;
+import org.springframework.validation.support.BindingAwareModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +90,21 @@ class UnitTests {
 		for (int i = 0; i < courseCount; i++) {
 			assertEquals(courseList.get(i), retrievedCourses.get(i));
 		}
+	}
+	@Test
+	@DisplayName("Test getIndex() method in StudentController")
+	void testGetIndex() {
+		// Create an instance of StudentController
+		StudentController controller = new StudentController();
+
+		// Create a new Model
+		Model model = new BindingAwareModelMap();
+
+		// Call the getIndex() method
+		String viewName = controller.getIndex();
+
+		// Assert that the view name returned by getIndex() is correct
+		assertEquals("student/index", viewName);
 	}
 
 
