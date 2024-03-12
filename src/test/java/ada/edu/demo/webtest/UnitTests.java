@@ -87,7 +87,7 @@ class UnitTests {
 
 			assertEquals(courseList.get(i), retrievedCourses.get(i));
 
-//hi
+
 		}
 
 	}
