@@ -75,24 +75,26 @@ class WebInterfaceTests {
 		assert(bodyElementFName.size() == 1);
 		assert(bodyElementLName.size() == 1);
 	}
+
 	@Test
 	@Order(3)
-	@DisplayName("Search for a student")
+	@DisplayName("Retrieve a single student by ID")
+	public void RetrieveSingleStudentById() {
+		int studentId = 1;
 
-	public void SearchStudent(){
-		webDriver.get("http://localhost:"+port+"/student/search?first=Nigar&last=Salayeva");
-		List<WebElement> bodyElementFName = webDriver.findElements(By.xpath("//*[contains(text(), 'Nigar')]"));
-		List<WebElement> bodyElementLName = webDriver.findElements(By.xpath("//*[contains(text(), 'Salayeva')]"));
+		webDriver.get("http://localhost:" + port + "/student/id?id=" + studentId);
+
+			WebElement studentNameElement = webDriver.findElement(By.xpath("//*[contains(text(), 'Nigar')]"));
 
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(2000); // Wait for the page to load
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 
-		// Check if the text "Jamal" is present in the page content
-		assert(bodyElementFName.size() == 1);
-		assert(bodyElementLName.size() == 1);
+		assertNotNull(studentNameElement, "The student's name should be displayed.");
+
+
 	}
 
 }
